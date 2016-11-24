@@ -1,32 +1,86 @@
 <!DOCTYPE html>
 <html>
-<head>
-<title>A8MiTunes</title>
-<style>
-.mainFrame {
-	width:75%;
-	margin-left:auto;
-	margin-right:auto;
-	text-align:center;
-	border: thin solid black
-}
-
-.cell {
-	border: thin solid black
-}
-</style>
-<script type="text/javascript" src="music.js" /></script>
-</head>
-<body>
-<table class="mainFrame">
-<tr>
-<td class="cell">a</td>
-<td class="cell">b</td>
-<td class="cell">c</td>
-</tr>
-<tr>
-<td class="cell">d</td>
-</tr>
-</table>
-</body>
+	<head>
+		<title>A8MiTunes</title>
+		<link rel="stylesheet" href="styles.css" />
+		<script type="text/javascript" src="music.js"></script>
+		<script type="text/javascript">
+		function getID(albumName)
+		{
+			return albumName.replace(/ /gi, "").toLowerCase();
+		}
+		
+		function clearSelect(x)
+		{
+			for (i = x.length - 1; i >= 0; i--)
+			{
+				x.remove(i);
+			}
+		}
+		
+		function updateLeftPane()
+		{
+			var albumList = document.getElementById("albumList");
+			
+			for (var i in albums)
+			{
+				var a = albums[i];
+				var option = document.createElement("OPTION");
+				var text = document.createTextNode(a.title + " - " + a.artist);
+				option.setAttribute("value", getID(a.title));
+				option.appendChild(text);
+				albumList.add(option);
+			}
+		}
+		
+		function updateCenterPane()
+		{
+			var albumList = document.getElementById("albumList");
+			var songList = document.getElementById("songList");
+			var albumTracks = [];
+			
+			for (var i in albums)
+			{
+				var a = albums[i];
+				
+				if (getID(a.title) == albumList.value)
+				{
+					albumTracks = a.tracks;
+				}
+			}
+			
+			clearSelect(songList);
+			
+			for (var i in albumTracks)
+			{
+				var t = albumTracks[i];
+				var option = document.createElement("OPTION");
+				var text = document.createTextNode(t.title);
+				option.setAttribute("value", getID(t.title));
+				option.appendChild(text);
+				songList.add(option);
+			}
+		}
+		</script>
+	</head>
+	<body>
+		<table class="mainTable">
+			<tr>
+				<td class="cell" id="leftPane">
+					<select id="albumList" class="dropdown" onchange="updateCenterPane()" size="25%">
+					</select>
+					<script>updateLeftPane()</script>
+				</td>
+				<td class="cell" id="centerPane">
+					<select id="songList" class="dropdown" size="25%">
+					</select>
+					<script>updateCenterPane()</script>
+				</td>
+				<td class="cell" id="rightPane">c</td>
+			</tr>
+			<tr>
+				<td class="cell" id="bottomPane" colspan="3">d</td>
+			</tr>
+		</table>
+	</body>
 </html>
