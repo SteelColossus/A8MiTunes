@@ -18,18 +18,48 @@
 			}
 		}
 		
-		function updateLeftPane()
+		function updateCurrentSong()
 		{
+		}
+		
+		function updateLeftPane()
+		{		
 			var albumList = document.getElementById("albumList");
 			
-			for (var i in albums)
-			{
-				var a = albums[i];
+			var sortedAlbums = albums.slice(0);
+			
+			sortedAlbums.sort(function (a, b) {
+				return a.artist > b.artist ? 1 : -1;
+			})
+			
+			var artistGroups = [];
+			
+			for (var i in sortedAlbums)
+			{				
+				var a = sortedAlbums[i];
+				
+				var optionGroup;
+				
+				var index = artistGroups.indexOf(a.artist);
+				
+				if (index == -1)
+				{
+					optionGroup = document.createElement("OPTGROUP");
+					optionGroup.setAttribute("id", a.artist + "grp");
+					optionGroup.setAttribute("label", a.artist);
+					albumList.add(optionGroup);
+					artistGroups.push(a.artist);
+				}
+				else
+				{
+					optionGroup = document.getElementById(artistGroups[index] + "grp");
+				}
+				
 				var option = document.createElement("OPTION");
-				var text = document.createTextNode(a.title + " - " + a.artist);
+				var text = document.createTextNode(a.title);
 				option.setAttribute("value", getID(a.title));
 				option.appendChild(text);
-				albumList.add(option);
+				optionGroup.appendChild(option);
 			}
 		}
 		
@@ -61,6 +91,60 @@
 				songList.add(option);
 			}
 		}
+		
+		function updateRightPane()
+		{
+			var currentAlbum = document.getElementById("albumList").value;
+			var currentSong = document.getElementById("songList").value;
+		
+			var albumArt = document.getElementById("albumArt");
+			var songName = document.getElementById("songName");
+			var songAlbum = document.getElementById("songAlbum");
+			var songArtist = document.getElementById("songArtist");
+			
+			var sourceMP3 = document.getElementById("sourceMP3");
+			var sourceWAV = document.getElementById("sourceWAV");
+			var audioControl = document.getElementById("audioControl");
+			
+			songName.innerHTML = "";
+			songAlbum.innerHTML = "";
+			songArtist.innerHTML = "";
+			
+			for (var i in albums)
+			{
+				var a = albums[i];
+				
+				if (getID(a.title) == currentAlbum)
+				{
+					songAlbum.appendChild(document.createTextNode(a.title));
+					songArtist.appendChild(document.createTextNode(a.artist));
+					
+					albumArt.setAttribute("src", "artwork/" + a.artwork + ".jpg");
+					
+					for (var j in a.tracks)
+					{
+						var s = a.tracks[j];
+										
+						if (getID(s.title) == currentSong)
+						{
+							songName.appendChild(document.createTextNode(s.title));
+							
+							var path = "audio/" + a.artist + "/" + a.title + "/";
+							var songFile = path + s.mp3.substring(0, s.mp3.lastIndexOf("."));
+							
+							sourceMP3.setAttribute("src", songFile + ".mp3");
+							sourceWAV.setAttribute("src", songFile + ".wav");
+							
+							audioControl.load();
+							
+							break;
+						}
+					}
+					
+					break;
+				}
+			}
+		}
 		</script>
 	</head>
 	<body>
@@ -72,14 +156,24 @@
 					<script>updateLeftPane()</script>
 				</td>
 				<td class="cell" id="centerPane">
-					<select id="songList" class="dropdown" size="25%">
+					<select id="songList" class="dropdown" onchange="updateRightPane()" size="25%">
 					</select>
 					<script>updateCenterPane()</script>
 				</td>
-				<td class="cell" id="rightPane">c</td>
+				<td class="cell" id="rightPane" style="text-align:center">
+					<img id="albumArt">
+					<p id="songName" class="songDetails" style="font-weight:bold"></p>
+					<p id="songAlbum" class="songDetails"></p>
+					<p id="songArtist" class="songDetails"></p>
+					<audio controls id="audioControl">
+						<source id="sourceMP3" type="audio/mpeg">
+						<source id="sourceWAV" type="audio/wav">
+						Your browser does not support the audio element.
+					</audio>
+				</td>
 			</tr>
 			<tr>
-				<td class="cell" id="bottomPane" colspan="3">d</td>
+				<td class="cell" id="bottomPane" colspan="3"></td>
 			</tr>
 		</table>
 	</body>

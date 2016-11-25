@@ -32,6 +32,23 @@ var albums=
 			"lyrics":"When Alfred Lord Tenyson wrote about the moan of doves in immemorial elm, he must have meant the wood pigeon"}
 		]
 	},
+	{
+		"title":"Wish You Were Here",
+		"artist":"Pink Floyd",
+		"artwork":"Wish_You_Were_Here",
+		"tracks":[
+			{"title":"Shine on You Crazy Diamond, Pts. I-V","mp3":"Shine on You Crazy Diamond, Pts. 1-5.mp3",
+			"lyrics":""},
+			{"title":"Welcome to the Machine","mp3":"Welcome to the Machine.mp3",
+			"lyrics":""},
+			{"title":"Have a Cigar","mp3":"Have a Cigar.mp3",
+			"lyrics":""},
+			{"title":"Wish You Were Here","mp3":"Wish You Were Here.mp3",
+			"lyrics":""},
+			{"title":"Shine on You Crazy Diamond, Pts. VI-IX","mp3":"Shine on You Crazy Diamond, Pts. 6-9.mp3",
+			"lyrics":""}
+		]
+	},
 	{	"title":"Birdsong Medium Birds",
 		"artist":"BBC",
 		"artwork":"Blackbird",
