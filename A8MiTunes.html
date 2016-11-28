@@ -5,6 +5,35 @@
 		<link rel="stylesheet" href="styles.css" />
 		<script type="text/javascript" src="music.js"></script>
 		<script type="text/javascript">
+		document.addEventListener("keydown", function(event) {
+			var key = document.getElementById("key" + event.key.substring(0, 1).toUpperCase() + event.key.substring(1));
+			
+			if (key != null)
+			{
+				key.click();
+			}
+			else if (event.keyCode == 8)
+			{
+				document.getElementById("keyBack").click();
+			}
+			else if (event.keyCode == 32)
+			{
+				document.getElementById("keySpace").click();
+			}
+			else if (event.keyCode == 13) // space
+			{			
+				var audioControl = document.getElementById("audioControl");
+				
+				audioControl.paused ? audioControl.play() : audioControl.pause();
+			}
+			else if (event.keyCode == 222)
+			{
+				var newAlbumList = document.getElementById("albumList");
+				
+				alert(newAlbumList.options.selectedIndex);
+			}
+		});
+		
 		function getID(albumName)
 		{
 			return albumName.replace(/ /gi, "").toLowerCase();
@@ -12,31 +41,132 @@
 		
 		function clearSelect(x)
 		{
-			for (i = x.length - 1; i >= 0; i--)
-			{
-				x.remove(i);
-			}
+			x.innerHTML = "";
 		}
 		
-		function updateCurrentSong()
+		function addToSearch(s)
 		{
+			var searchBar = document.getElementById("searchBar");
+			
+			var currentText = searchBar.getAttribute("value");
+			
+			var newText = (currentText == null) ? s : currentText + s;
+			
+			searchBar.setAttribute("value", newText);
+			
+			updateSearch();
+		}
+		
+		function backspace()
+		{
+			var searchBar = document.getElementById("searchBar");
+			
+			var currentText = searchBar.getAttribute("value");
+			
+			var newText = (currentText == null) ? s : currentText.substring(0, currentText.length - 1);
+			
+			searchBar.setAttribute("value", newText);
+			
+			updateSearch();
+		}
+		
+		function clearSearch()
+		{
+			var searchBar = document.getElementById("searchBar");
+			
+			searchBar.setAttribute("value", "");
+			
+			updateSearch();
+		}
+		
+		function space()
+		{
+			var searchBar = document.getElementById("searchBar");
+			
+			var currentText = searchBar.getAttribute("value");
+			
+			var newText = (currentText == null) ? currentText : currentText + " ";
+			
+			searchBar.setAttribute("value", newText);
+			
+			updateSearch();
+		}
+		
+		function updateSearch()
+		{
+			var albumValue = document.getElementById("albumList").value;
+			var songValue = document.getElementById("songList").value;
+		
+			updateLeftPane();
+			
+			var newAlbumList = document.getElementById("albumList");
+			
+			if (albumValue != null && newAlbumList.innerHTML.includes(albumValue))
+			{
+				newAlbumList.selectedIndex = newAlbumList.options.namedItem(albumValue).index.toString();
+				alert(newAlbumList.options.namedItem(albumValue).index.toString());
+			}
+			else if (newAlbumList.options.length == 1)
+			{
+				newAlbumList.selectedIndex = "0";
+			}
+			
+			updateCenterPane();
+			
+			var newSongList = document.getElementById("songList");
+			
+			if (songValue != null && newSongList.innerHTML.includes(songValue))
+			{
+				newSongList.value = songValue;
+			}
+			else if (newSongList.options.length == 1)
+			{
+				newSongList.selectedIndex = "0";
+			}
+			
+			alert(newAlbumList.options.selectedIndex);
 		}
 		
 		function updateLeftPane()
 		{		
 			var albumList = document.getElementById("albumList");
 			
+			var searchBar = document.getElementById("searchBar");
+			
+			clearSelect(albumList);
+			
 			var sortedAlbums = albums.slice(0);
 			
 			sortedAlbums.sort(function (a, b) {
 				return a.artist > b.artist ? 1 : -1;
-			})
+			});
+			
+			var filteredAlbums;
+			
+			if (searchBar != null)
+			{
+				filteredAlbums = sortedAlbums.filter(function (x) {
+					for (var i in x.tracks)
+					{						
+						if (x.tracks[i].title.toUpperCase().includes(searchBar.value))
+						{
+							return true;
+						}
+					}
+					
+					return false;
+				});
+			}
+			else
+			{
+				filteredAlbums = sortedAlbums;
+			}
 			
 			var artistGroups = [];
 			
-			for (var i in sortedAlbums)
+			for (var i in filteredAlbums)
 			{				
-				var a = sortedAlbums[i];
+				var a = filteredAlbums[i];
 				
 				var optionGroup;
 				
@@ -58,6 +188,7 @@
 				var option = document.createElement("OPTION");
 				var text = document.createTextNode(a.title);
 				option.setAttribute("value", getID(a.title));
+				option.setAttribute("id", getID(a.title));
 				option.appendChild(text);
 				optionGroup.appendChild(option);
 			}
@@ -81,9 +212,30 @@
 			
 			clearSelect(songList);
 			
-			for (var i in albumTracks)
+			var filteredTracks;
+			
+			if (searchBar != null)
 			{
-				var t = albumTracks[i];
+				filteredTracks = albumTracks.filter(function (x) {
+					for (var i in x)
+					{						
+						if (x.title.toUpperCase().includes(searchBar.value))
+						{
+							return true;
+						}
+					}
+					
+					return false;
+				});
+			}
+			else
+			{
+				filteredTracks = albumTracks;
+			}
+			
+			for (var i in filteredTracks)
+			{
+				var t = filteredTracks[i];
 				var option = document.createElement("OPTION");
 				var text = document.createTextNode(t.title);
 				option.setAttribute("value", getID(t.title));
@@ -145,22 +297,126 @@
 				}
 			}
 		}
+		
+		function generateKeyboardControlPanel()
+		{		
+			var bottomPane = document.getElementById("bottomPane");
+			var newElement;
+			
+			var keyLayout = ["Back", "Clear", "Space"];
+			
+			newElement = document.createElement("DIV");
+			
+			for (var r = 0; r < keyLayout.length; r++)
+			{
+				var key = keyLayout[r];
+			
+				var rowElement = document.createElement("DIV");
+				
+				var cellElement = document.createElement("SPAN");
+			
+				cellElement.setAttribute("class", "keyboardCell controlCell");
+				
+				var buttonElement = document.createElement("INPUT");
+				var buttonElement = document.createElement("INPUT");
+				buttonElement.setAttribute("type", "button");
+				buttonElement.setAttribute("id", "key" + key);
+				buttonElement.setAttribute("value", key);
+				buttonElement.setAttribute("class", "keyboardButton controlButton");
+				
+				var assFunction;
+				
+				switch (key)
+				{
+					case "Back": assFunction = "backspace()"; break;
+					case "Clear": assFunction = "clearText()"; break;
+					case "Space": assFunction = "space()"; break;
+					default: assFunction = "";
+				}
+				
+				if (assFunction != "") buttonElement.setAttribute("onclick", assFunction);
+				
+				cellElement.appendChild(buttonElement);
+				
+				rowElement.appendChild(cellElement);
+			
+				rowElement.setAttribute("class", "keyboardRow controlRow");
+				
+				newElement.appendChild(rowElement);
+			}
+			
+			newElement.setAttribute("style", "controlBoard");
+			
+			bottomPane.appendChild(newElement);
+		}
+		
+		function generateKeyboard()
+		{
+			var bottomPane = document.getElementById("bottomPane");
+			var newElement;
+			
+			var keyLayout = [["Q","W","E","R","T","Y","U","I","O","P"],
+							 ["A","S","D","F","G","H","J","K","L"],
+							 ["Z","X","C","V","B","N","M"]];
+			
+			newElement = document.createElement("DIV");
+			
+			newElement.setAttribute("id", "keyboard");
+			
+			newElement.setAttribute("class", "keyboard");
+			
+			for (var r = 0; r < keyLayout.length; r++)
+			{
+				var rowElement = document.createElement("DIV");
+			
+				for (var c = 0; c < keyLayout[r].length; c++)
+				{
+					var key = keyLayout[r][c];
+					
+					var cellElement = document.createElement("SPAN");
+					
+					cellElement.setAttribute("class", "keyboardCell");
+					
+					if (key != "")
+					{
+						var buttonElement = document.createElement("INPUT");
+						buttonElement.setAttribute("type", "button");
+						buttonElement.setAttribute("id", "key" + key.toUpperCase());
+						buttonElement.setAttribute("value", key);
+						buttonElement.setAttribute("class", "keyboardButton");
+						buttonElement.setAttribute("onclick", "addToSearch(\"" + buttonElement.getAttribute("value") + "\")");
+						
+						cellElement.appendChild(buttonElement);
+					}
+					
+					rowElement.appendChild(cellElement);
+				}
+				
+				rowElement.setAttribute("class", "keyboardRow");
+				
+				newElement.appendChild(rowElement);
+			}
+			
+			bottomPane.appendChild(newElement);
+			
+			generateKeyboardControlPanel();
+		}
 		</script>
 	</head>
 	<body>
 		<table class="mainTable">
 			<tr>
-				<td class="cell" id="leftPane">
+				<td class="pane" id="leftPane">
 					<select id="albumList" class="dropdown" onchange="updateCenterPane()" size="25%">
 					</select>
 					<script>updateLeftPane()</script>
 				</td>
-				<td class="cell" id="centerPane">
+				<td class="pane" id="centerPane">
 					<select id="songList" class="dropdown" onchange="updateRightPane()" size="25%">
 					</select>
 					<script>updateCenterPane()</script>
 				</td>
-				<td class="cell" id="rightPane" style="text-align:center">
+				<td class="pane" id="rightPane">
 					<img id="albumArt">
 					<p id="songName" class="songDetails" style="font-weight:bold"></p>
 					<p id="songAlbum" class="songDetails"></p>
@@ -173,7 +429,12 @@
 				</td>
 			</tr>
 			<tr>
-				<td class="cell" id="bottomPane" colspan="3"></td>
+				<td class="cell" id="bottomPane" colspan="3">
+					<div>
+						<input type="text" id="searchBar"></input>
+					</div>
+					<script>generateKeyboard()</script>
+				</td>
 			</tr>
 		</table>
 	</body>
