@@ -34,6 +34,74 @@
 			}
 		});
 		
+		function filterAlbumList(albumList, searchTxt)
+		{
+			var filteredAlbumList = [];
+			
+			for (var i in albumList)
+			{				
+				if (filterSongList(albumList[i].tracks, searchTxt).length > 0)
+				{
+					filteredAlbumList[filteredAlbumList.length] = albumList[i];
+				}
+			}
+			
+			return filteredAlbumList;
+		}
+		
+		function filterSongList(songList, searchTxt)
+		{
+			var searchParameters = document.getElementById("searchParameters").value;
+		
+			var filteredSongList = [];
+		
+			for (var i in songList)
+			{
+				if ((searchParameters == "Title" || searchParameters == "TitleLyrics") && songList[i].title.toUpperCase().includes(searchTxt.toUpperCase()))
+				{
+					filteredSongList[filteredSongList.length] = songList[i];
+				}
+				else if ((searchParameters == "Lyrics" || searchParameters == "TitleLyrics") && songList[i].lyrics.toUpperCase().includes(searchTxt.toUpperCase()))
+				{
+					filteredSongList[filteredSongList.length] = songList[i];
+				}
+			}
+			
+			return filteredSongList;
+		}
+		
+		function nextSong()
+		{
+			var songList = document.getElementById("songList");
+			
+			var shuffle = false;
+
+			if (shuffle)
+			{
+				var rand = songList.selectedIndex;
+				var count = 0;
+				
+				do
+				{
+					rand = Math.floor(Math.random() * songList.length);
+					count++;
+				}
+				while (rand == songList.selectedIndex && count < 10)
+				
+				songList.selectedIndex = rand;
+			}
+			else
+			{
+				if (songList.selectedIndex >= songList.length - 1) return;
+			
+				songList.selectedIndex = songList.selectedIndex + 1;
+			}
+			
+			updateRightPane();
+				
+			document.getElementById("audioControl").play();
+		}
+		
 		function getID(albumName)
 		{
 			return albumName.replace(/ /gi, "").toLowerCase();
@@ -101,30 +169,41 @@
 			
 			var newAlbumList = document.getElementById("albumList");
 			
-			if (albumValue != null && newAlbumList.innerHTML.includes(albumValue))
+			var aValueIndex = -1;
+			
+			if (albumValue != null)
 			{
-				newAlbumList.selectedIndex = newAlbumList.options.namedItem(albumValue).index.toString();
-				alert(newAlbumList.options.namedItem(albumValue).index.toString());
-			}
-			else if (newAlbumList.options.length == 1)
-			{
-				newAlbumList.selectedIndex = "0";
+				for (var a in newAlbumList.options)
+				{
+					if (newAlbumList.options[a].value == albumValue)
+					{
+						aValueIndex = a;
+						break;
+					}
+				}
+
+				if (aValueIndex >= 0) newAlbumList.selectedIndex = aValueIndex.toString();
 			}
 			
 			updateCenterPane();
 			
 			var newSongList = document.getElementById("songList");
 			
-			if (songValue != null && newSongList.innerHTML.includes(songValue))
-			{
-				newSongList.value = songValue;
-			}
-			else if (newSongList.options.length == 1)
-			{
-				newSongList.selectedIndex = "0";
-			}
+			var sValueIndex = -1;
 			
-			alert(newAlbumList.options.selectedIndex);
+			if (songValue != null)
+			{
+				for (var s in newSongList.options)
+				{
+					if (newSongList.options[s].value == songValue)
+					{
+						sValueIndex = s;
+						break;
+					}
+				}
+
+				if (sValueIndex >= 0) newSongList.selectedIndex = sValueIndex.toString();
+			}
 		}
 		
 		function updateLeftPane()
@@ -145,17 +224,7 @@
 			
 			if (searchBar != null)
 			{
-				filteredAlbums = sortedAlbums.filter(function (x) {
-					for (var i in x.tracks)
-					{						
-						if (x.tracks[i].title.toUpperCase().includes(searchBar.value))
-						{
-							return true;
-						}
-					}
-					
-					return false;
-				});
+				filteredAlbums = filterAlbumList(sortedAlbums, searchBar.value);
 			}
 			else
 			{
@@ -200,6 +269,8 @@
 			var songList = document.getElementById("songList");
 			var albumTracks = [];
 			
+			var searchBar = document.getElementById("searchBar");
+			
 			for (var i in albums)
 			{
 				var a = albums[i];
@@ -216,17 +287,7 @@
 			
 			if (searchBar != null)
 			{
-				filteredTracks = albumTracks.filter(function (x) {
-					for (var i in x)
-					{						
-						if (x.title.toUpperCase().includes(searchBar.value))
-						{
-							return true;
-						}
-					}
-					
-					return false;
-				});
+				filteredTracks = filterSongList(albumTracks, searchBar.value);
 			}
 			else
 			{
@@ -271,7 +332,9 @@
 					songAlbum.appendChild(document.createTextNode(a.title));
 					songArtist.appendChild(document.createTextNode(a.artist));
 					
-					albumArt.setAttribute("src", "artwork/" + a.artwork + ".jpg");
+					var artPath = "artwork/" + a.artwork + ".jpg";
+					
+					albumArt.setAttribute("src", artPath);
 					
 					for (var j in a.tracks)
 					{
@@ -300,16 +363,18 @@
 		
 		function generateKeyboardControlPanel()
 		{		
-			var bottomPane = document.getElementById("bottomPane");
+			var bottomPane = document.getElementById("fullKeyboard");
 			var newElement;
 			
-			var keyLayout = ["Back", "Clear", "Space"];
+			var keyLayout = {"Back":"← Backspace", "Clear":"Clear", "Space":"Space"};
 			
 			newElement = document.createElement("DIV");
 			
-			for (var r = 0; r < keyLayout.length; r++)
-			{
-				var key = keyLayout[r];
+			newElement.setAttribute("id", "controlBoard");
+			
+			for (var key in keyLayout)
+			{			
+				var value = keyLayout[key];
 			
 				var rowElement = document.createElement("DIV");
 				
@@ -321,7 +386,7 @@
 				var buttonElement = document.createElement("INPUT");
 				buttonElement.setAttribute("type", "button");
 				buttonElement.setAttribute("id", "key" + key);
-				buttonElement.setAttribute("value", key);
+				buttonElement.setAttribute("value", value);
 				buttonElement.setAttribute("class", "keyboardButton controlButton");
 				
 				var assFunction;
@@ -345,14 +410,12 @@
 				newElement.appendChild(rowElement);
 			}
 			
-			newElement.setAttribute("style", "controlBoard");
-			
 			bottomPane.appendChild(newElement);
 		}
 		
 		function generateKeyboard()
 		{
-			var bottomPane = document.getElementById("bottomPane");
+			var bottomPane = document.getElementById("fullKeyboard");
 			var newElement;
 			
 			var keyLayout = [["Q","W","E","R","T","Y","U","I","O","P"],
@@ -362,8 +425,6 @@
 			newElement = document.createElement("DIV");
 			
 			newElement.setAttribute("id", "keyboard");
-			
-			newElement.setAttribute("class", "keyboard");
 			
 			for (var r = 0; r < keyLayout.length; r++)
 			{
@@ -404,7 +465,7 @@
 		</script>
 	</head>
 	<body>
-		<table class="mainTable">
+		<table id="mainTable">
 			<tr>
 				<td class="pane" id="leftPane">
 					<select id="albumList" class="dropdown" onchange="updateCenterPane()" size="25%">
@@ -418,10 +479,10 @@
 				</td>
 				<td class="pane" id="rightPane">
 					<img id="albumArt">
-					<p id="songName" class="songDetails" style="font-weight:bold"></p>
+					<p id="songName" class="songDetails"></p>
 					<p id="songAlbum" class="songDetails"></p>
 					<p id="songArtist" class="songDetails"></p>
-					<audio controls id="audioControl">
+					<audio controls id="audioControl" onended="nextSong()">
 						<source id="sourceMP3" type="audio/mpeg">
 						<source id="sourceWAV" type="audio/wav">
 						Your browser does not support the audio element.
@@ -432,8 +493,15 @@
 				<td class="cell" id="bottomPane" colspan="3">
 					<div>
 						<input type="text" id="searchBar"></input>
+						<select id="searchParameters">
+							<option value="Title" selected>Title</option>
+							<option value="Lyrics">Lyrics</option>
+							<option value="TitleLyrics">Title & Lyrics</option>
+						</select>
 					</div>
-					<script>generateKeyboard()</script>
+					<div id="fullKeyboard">
+						<script>generateKeyboard()</script>
+					</div>
 				</td>
 			</tr>
 		</table>

@@ -7,7 +7,7 @@ var albums=
 			{"title":"Dunnock","mp3":"Birdsong-Dunnock.mp3",
 			"lyrics":"The Dunnock or hedge sparrow has a fast warbling song often delivered from the top of a hedge or bush"},
 			{"title":"Robin","mp3":"Birdsong-Robin.mp3",
-			"lyrics":"Unusually among British birds, both the male and the femaale robins sing"},
+			"lyrics":"Unusually among British birds, both the male and the female robins sing"},
 			{"title":"Siskin","mp3":"Birdsong-Siskin.mp3",
 			"lyrics":"For many of us, lime green siskins are now regular garden visitors but usually in winter"},
 			{"title":"Wren","mp3":"Birdsong-Wren.mp3",
@@ -38,7 +38,7 @@ var albums=
 		"artwork":"Wish_You_Were_Here",
 		"tracks":[
 			{"title":"Shine on You Crazy Diamond, Pts. I-V","mp3":"Shine on You Crazy Diamond, Pts. 1-5.mp3",
-			"lyrics":""},
+			"lyrics":"Remember when you were young, you shone like the sun. Shine on you crazy diamond. Now there's a look in your eyes, like black holes in the sky. Shine on you crazy diamond. You were caught in the crossfire of childhood and stardom, blown on the steel breeze. Come on you target for faraway laughter, come on you stranger, you legend, you martyr, and shine! You reached for the secret too soon, you cried for the moon. Shine on you crazy diamond. Threatened by shadows at night, and exposed in the light. Shine on you crazy diamond. Well you wore out your welcome with random precision, rode on the steel breeze. Come on you raver, you seer of visions, come on you painter, you piper, you prisoner, and shine!"},
 			{"title":"Welcome to the Machine","mp3":"Welcome to the Machine.mp3",
 			"lyrics":""},
 			{"title":"Have a Cigar","mp3":"Have a Cigar.mp3",
