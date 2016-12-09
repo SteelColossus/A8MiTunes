@@ -12,25 +12,19 @@
 			{
 				key.click();
 			}
-			else if (event.keyCode == 8)
+			else if (event.keyCode == 8) // backspace
 			{
 				document.getElementById("keyBack").click();
 			}
-			else if (event.keyCode == 32)
+			else if (event.keyCode == 32) // space
 			{
 				document.getElementById("keySpace").click();
 			}
-			else if (event.keyCode == 13) // space
+			else if (event.keyCode == 13) // enter
 			{			
 				var audioControl = document.getElementById("audioControl");
 				
 				audioControl.paused ? audioControl.play() : audioControl.pause();
-			}
-			else if (event.keyCode == 222)
-			{
-				var newAlbumList = document.getElementById("albumList");
-				
-				alert(newAlbumList.options.selectedIndex);
 			}
 		});
 		
@@ -222,7 +216,7 @@
 			
 			var filteredAlbums;
 			
-			if (searchBar != null)
+			if (searchBar != null && searchBar.value.length > 1)
 			{
 				filteredAlbums = filterAlbumList(sortedAlbums, searchBar.value);
 			}
@@ -285,7 +279,7 @@
 			
 			var filteredTracks;
 			
-			if (searchBar != null)
+			if (searchBar != null && searchBar.value.length > 1)
 			{
 				filteredTracks = filterSongList(albumTracks, searchBar.value);
 			}
@@ -366,7 +360,7 @@
 			var bottomPane = document.getElementById("fullKeyboard");
 			var newElement;
 			
-			var keyLayout = {"Back":"← Backspace", "Clear":"Clear", "Space":"Space"};
+			var keyLayout = {"Back":"Backspace", "Clear":"Clear", "Space":"Space"};
 			
 			newElement = document.createElement("DIV");
 			
@@ -394,7 +388,7 @@
 				switch (key)
 				{
 					case "Back": assFunction = "backspace()"; break;
-					case "Clear": assFunction = "clearText()"; break;
+					case "Clear": assFunction = "clearSearch()"; break;
 					case "Space": assFunction = "space()"; break;
 					default: assFunction = "";
 				}
@@ -468,12 +462,12 @@
 		<table id="mainTable">
 			<tr>
 				<td class="pane" id="leftPane">
-					<select id="albumList" class="dropdown" onchange="updateCenterPane()" size="25%">
+					<select id="albumList" class="dropdown" onchange="updateCenterPane()" size="22%">
 					</select>
 					<script>updateLeftPane()</script>
 				</td>
 				<td class="pane" id="centerPane">
-					<select id="songList" class="dropdown" onchange="updateRightPane()" size="25%">
+					<select id="songList" class="dropdown" onchange="updateRightPane()" size="22%">
 					</select>
 					<script>updateCenterPane()</script>
 				</td>
