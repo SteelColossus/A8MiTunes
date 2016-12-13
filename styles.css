@@ -1,17 +1,18 @@
 html, body {
 	font-family: "verdana", "sans-serif";
 	font-size: 100%;
+	width: 100%;
+	height: 100%;
+	margin: 0;
 }
 
 #mainTable {
-	width: 75%;
-	height: 550px;
-	/* Centers the table */
+	width: 70%;
+	 /*Centers the table */
 	margin-left: auto;
-	margin-right: auto; 
-	text-align: center; 
-	border: thin solid black; 
-	border-collapse: collapse; 
+	margin-right: auto;
+	border: thin solid black;
+	border-collapse: collapse;
 }
 
 .pane {
@@ -19,28 +20,25 @@ html, body {
 }
 
 #leftPane {
-	vertical-align:top;
+	vertical-align: top;
 	width: 27.5%;
-	height: 100%;
 }
 
 #centerPane {
-	vertical-align:top;
+	vertical-align: top;
 	width: 27.5%;
-	height: 100%;
 }
 
 #rightPane {
-	text-align:center;
+	text-align: center;
 	width: 45%;
-	height: 100%;
 }
 
-.dropdown { 
-	width: 100%; 
-	height: 100%; 
+.dropdown {
+	width: 100%;
+	height: 100%;
 	overflow: auto;
-	font-size: 100%; 
+	font-size: 100%;
 }
 
 #songName {
@@ -54,42 +52,41 @@ html, body {
 #audioControl {
 	width: 80%;
 	height: 7.5%;
+	visibility: hidden;
+}
+
+#topSection {
+	text-align: center;
+	margin-top: 0.5%;
+	margin-bottom: 0.75%;
+}
+
+#searchBar {
+	width: 40%;
+	text-align: center;
+	font-size: 125%;
+	display: inline-block;
+	margin-right: 2%;
+}
+
+#searchParameters {
+	font-size: 100%;
+	display: inline-block;
 }
 
 #fullKeyboard {
-	margin-left: auto;
-	margin-right: auto;
+	text-align: center;
+	margin-bottom: 0.5%;
 }
 
 #keyboard {
-	margin-left: 20%;
+	display: inline-block;
 	margin-right: 2%;
-	margin-bottom: 10px;
-	float: left;
 }
 
 #controlBoard {
-	margin: 0px;
-	float: left;
 	text-align: right;
-}
-
-.keyboardRow {
-    display: table;
-    margin: 0 auto;
-}
-
-.controlRow {
-	margin-right: 10px;
-}
-
-.keyboardCell {
-	text-align:center;
-	padding: 0;
-}
-
-.controlCell {
-	text-align:right;
+	display: inline-block;
 }
 
 .keyboardButton {
@@ -100,16 +97,5 @@ html, body {
 }
 
 .controlButton {
-	width:auto;
+	width: auto;
 }
-
-#searchBar {
-	width: 40%;
-	margin: 10px auto;
-	text-align: center;
-	font-size: 125%;
-}
-
-#searchParameters {
-	font-size: 100%;
-} 

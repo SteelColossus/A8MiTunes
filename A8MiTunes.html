@@ -28,6 +28,50 @@
 			}
 		});
 		
+		/*
+		function getExcerpt(text, word)
+		{
+			var excerptLength = 20;
+			var otherCharLength = excerptLength - word.length;
+			var excerpt = "";
+			var index = text.indexOf(word);
+			
+			if (index <= Math.floor(otherCharLength / 2))
+			{
+				excerpt = text.substr(0, excerptLength);
+			}
+			else if (index >= text.length - (word.length + Math.floor(otherCharLength / 2)))
+			{
+				excerpt = text.substr(text.length - excerptLength, excerptLength);
+			}
+			else if (index != -1)
+			{
+				excerpt = text.substr(text.length - Math.floor(otherCharLength / 2), excerptLength);
+			}
+			
+			return excerpt;
+		}
+		
+		function getLyricExcerpts()
+		{
+			var albumList = document.getElementById("albumList");
+			var songList = document.getElementById("songList");
+		
+			var searchText = document.getElementById("searchBar").getAttribute("value");
+			
+			alert(albums.findIndex(function (x) { getID(x.title) == albumList.value; }));
+			
+			for (var s in songList.options)
+			{
+				//var songIndex = albums[albumIndex].tracks.findIndex(function (x) { x.title == songValue; });
+				
+				//alert(albumIndex);
+				
+				//alert(getExcerpt(searchText, albums[albumIndex].tracks[songIndex]));
+			}
+		}
+		*/
+		
 		function filterAlbumList(albumList, searchTxt)
 		{
 			var filteredAlbumList = [];
@@ -282,6 +326,8 @@
 			if (searchBar != null && searchBar.value.length > 1)
 			{
 				filteredTracks = filterSongList(albumTracks, searchBar.value);
+				//var searchParameters = document.getElementById("searchParameters").value;
+				//if (searchParameters == "Lyrics" || searchParameters == "TitleLyrics") getLyricExcerpts();
 			}
 			else
 			{
@@ -329,6 +375,7 @@
 					var artPath = "artwork/" + a.artwork + ".jpg";
 					
 					albumArt.setAttribute("src", artPath);
+					albumArt.setAttribute("alt", a.artwork);
 					
 					for (var j in a.tracks)
 					{
@@ -345,6 +392,7 @@
 							sourceWAV.setAttribute("src", songFile + ".wav");
 							
 							audioControl.load();
+							audioControl.style.visibility = "visible";
 							
 							break;
 						}
@@ -462,12 +510,12 @@
 		<table id="mainTable">
 			<tr>
 				<td class="pane" id="leftPane">
-					<select id="albumList" class="dropdown" onchange="updateCenterPane()" size="22%">
+					<select id="albumList" class="dropdown" onchange="updateCenterPane()" size="20">
 					</select>
 					<script>updateLeftPane()</script>
 				</td>
 				<td class="pane" id="centerPane">
-					<select id="songList" class="dropdown" onchange="updateRightPane()" size="22%">
+					<select id="songList" class="dropdown" onchange="updateRightPane()" size="20">
 					</select>
 					<script>updateCenterPane()</script>
 				</td>
@@ -485,8 +533,8 @@
 			</tr>
 			<tr>
 				<td class="cell" id="bottomPane" colspan="3">
-					<div>
-						<input type="text" id="searchBar"></input>
+					<div id="topSection">
+						<input type="text" id="searchBar" onfocus=this.blur()>
 						<select id="searchParameters">
 							<option value="Title" selected>Title</option>
 							<option value="Lyrics">Lyrics</option>
