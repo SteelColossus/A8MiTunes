@@ -2,7 +2,132 @@
 <html>
 	<head>
 		<title>A8MiTunes</title>
-		<link rel="stylesheet" href="styles.css" />
+		<!-- <link rel="stylesheet" href="styles.css" /> -->
+		<style>
+		html, body {
+			font-family: "Arial", "Sans-serif";
+			font-size: 100%;
+			width: 100%;
+			height: 100%;
+			margin: 0;
+			
+			background-color: #313236;
+		}
+
+		#mainTable {
+			width: 70%;
+			 /*Centers the table */
+			margin-left: auto;
+			margin-right: auto;
+			border: thin solid black;
+			border-collapse: collapse;
+		}
+
+		.pane {
+			border: thin solid black;
+			
+			background-color: #4F4BE8;
+		}
+
+		#leftPane {
+			vertical-align: top;
+			width: 27.5%;
+		}
+
+		#centerPane {
+			vertical-align: top;
+			width: 27.5%;
+		}
+
+		#rightPane {
+			text-align: center;
+			width: 45%;
+			
+			font-family: "Verdana";
+		}
+
+		.dropdown {
+			width: 100%;
+			height: 100%;
+			overflow: auto;
+			font-size: 100%;
+			
+			border: 0px;
+			background-color: #4F4BE8;
+		}
+
+		#songName {
+			font-weight: bold;
+		}
+
+		#songArtist {
+			font-style: italic;
+		}
+
+		#albumArt {
+			visibility: hidden;
+			outline: 2px solid #000000;
+			border: 1px solid #313236;
+		}
+
+		#audioControl {
+			width: 80%;
+			height: 7.5%;
+			visibility: hidden;
+		}
+
+		#topSection {
+			text-align: center;
+			margin-top: 0.5%;
+			margin-bottom: 0.75%;
+		}
+
+		#searchBar {
+			width: 40%;
+			text-align: center;
+			font-size: 125%;
+			display: inline-block;
+			margin-right: 2%;
+			
+			border: 1.5px solid #000000;
+		}
+
+		#searchParameters {
+			font-size: 100%;
+			display: inline-block;
+		}
+
+		#fullKeyboard {
+			text-align: center;
+			margin-bottom: 0.5%;
+		}
+
+		#keyboard {
+			display: inline-block;
+			margin-right: 2%;
+		}
+
+		#controlBoard {
+			text-align: right;
+			display: inline-block;
+		}
+
+		.keyboardButton {
+			vertical-align: middle;
+			font-size: 125%;
+			width: 40px;
+			height: 40px;
+			
+			background-color: black;
+			color: white;
+			border: 1px solid white;
+		}
+
+		.controlButton {
+			width: auto;
+		}
+		</style>
+		
 		<script type="text/javascript" src="music.js"></script>
 		<script type="text/javascript">
 		document.addEventListener("keydown", function(event) {
@@ -22,9 +147,7 @@
 			}
 			else if (event.keyCode == 13) // enter
 			{			
-				var audioControl = document.getElementById("audioControl");
-				
-				audioControl.paused ? audioControl.play() : audioControl.pause();
+				changeSongPlayState();
 			}
 		});
 		
@@ -71,6 +194,13 @@
 			}
 		}
 		*/
+		
+		function changeSongPlayState()
+		{
+			var audioControl = document.getElementById("audioControl");
+				
+			audioControl.paused ? audioControl.play() : audioControl.pause();
+		}
 		
 		function filterAlbumList(albumList, searchTxt)
 		{
@@ -191,7 +321,7 @@
 			
 			var currentText = searchBar.getAttribute("value");
 			
-			var newText = (currentText == null) ? currentText : currentText + " ";
+			var newText = (currentText == null || currentText == "") ? "" : currentText + " ";
 			
 			searchBar.setAttribute("value", newText);
 			
@@ -376,6 +506,7 @@
 					
 					albumArt.setAttribute("src", artPath);
 					albumArt.setAttribute("alt", a.artwork);
+					albumArt.style.visibility = "visible";
 					
 					for (var j in a.tracks)
 					{
@@ -515,7 +646,7 @@
 					<script>updateLeftPane()</script>
 				</td>
 				<td class="pane" id="centerPane">
-					<select id="songList" class="dropdown" onchange="updateRightPane()" size="20">
+					<select id="songList" class="dropdown" onchange="updateRightPane()" ondblclick="changeSongPlayState()" size="20">
 					</select>
 					<script>updateCenterPane()</script>
 				</td>
@@ -532,13 +663,13 @@
 				</td>
 			</tr>
 			<tr>
-				<td class="cell" id="bottomPane" colspan="3">
+				<td class="pane" id="bottomPane" colspan="3">
 					<div id="topSection">
 						<input type="text" id="searchBar" onfocus=this.blur()>
 						<select id="searchParameters">
 							<option value="Title" selected>Title</option>
 							<option value="Lyrics">Lyrics</option>
-							<option value="TitleLyrics">Title & Lyrics</option>
+							<option value="TitleLyrics" selected>Title & Lyrics</option>
 						</select>
 					</div>
 					<div id="fullKeyboard">
