@@ -180,7 +180,8 @@
 			if (songList.selectedIndex != -1)
 			{
 				var shuffle = false;
-
+				
+				// Unused function to shuffle songs.
 				if (shuffle)
 				{
 					var rand = songList.selectedIndex;
@@ -233,7 +234,7 @@
 		}
 		
 		// Description: Filters the list of albums depending on a search string. Given by all the albums which have a song that passes the same search string filter.
-		// Parameters: array songList, string searchTxt
+		// Parameters: array albumList, string searchTxt
 		// Return value: array
 		function filterAlbumList(albumList, searchTxt)
 		{
@@ -275,6 +276,7 @@
 			
 			var currentText = searchBar.getAttribute("value");
 			
+			// Takes off the last character.
 			var newText = (currentText == null || currentText == "") ? "" : currentText.substring(0, currentText.length - 1);
 			
 			searchBar.setAttribute("value", newText);
@@ -324,6 +326,7 @@
 			
 			var aValueIndex = -1;
 			
+			// Sets the currently selected album to be the album that was selected beforehand
 			if (albumValue != null)
 			{
 				for (var a in newAlbumList.options)
@@ -344,6 +347,7 @@
 			
 			var sValueIndex = -1;
 			
+			// Sets the currently selected song to be the song that was selected beforehand
 			if (songValue != null)
 			{
 				for (var s in newSongList.options)
@@ -370,9 +374,12 @@
 			
 			albumList.innerHTML = "";
 			
+			// This takes a copy of the albums array and puts it into sortedAlbums.
 			var sortedAlbums = albums.slice(0);
 			
+			// This line takes a sort function, then checks pairs of elements against the function to see which way round they should be.
 			sortedAlbums.sort(function (a, b) {
+				// In this case, if the first album's artist comes after the second album's artist, the function returns 1, meaning sort a after b. Otherwise it returns -1, meaning sort a before b.
 				return a.artist > b.artist ? 1 : -1;
 			});
 			
@@ -399,6 +406,7 @@
 				
 				if (index == -1)
 				{
+					// Creates an option group. An option group divides a dropdown into multiple groups (in this case by album artist)
 					optionGroup = document.createElement("OPTGROUP");
 					optionGroup.setAttribute("id", a.artist + "grp");
 					optionGroup.setAttribute("label", a.artist);
@@ -508,6 +516,7 @@
 						{
 							songName.appendChild(document.createTextNode(s.title));
 							
+							// Setting up the audio path
 							var path = "audio/" + a.artist + "/" + a.title + "/";
 							var songFile = path + s.mp3.substring(0, s.mp3.lastIndexOf("."));
 							
@@ -534,6 +543,7 @@
 			var bottomPane = document.getElementById("fullKeyboard");
 			var newElement;
 			
+			// Shows the layout of the on-screen keyboard
 			var keyLayout = [["Q","W","E","R","T","Y","U","I","O","P"],
 							 ["A","S","D","F","G","H","J","K","L"],
 							 ["Z","X","C","V","B","N","M"]];
@@ -561,6 +571,7 @@
 						buttonElement.setAttribute("id", "key" + key.toUpperCase());
 						buttonElement.setAttribute("value", key);
 						buttonElement.setAttribute("class", "keyboardButton");
+						// When the button is clicked, it will call the addToSearch function with the parameter as whatever the button's value is
 						buttonElement.setAttribute("onclick", "addToSearch(\"" + buttonElement.getAttribute("value") + "\")");
 						
 						cellElement.appendChild(buttonElement);
@@ -585,6 +596,7 @@
 			var bottomPane = document.getElementById("fullKeyboard");
 			var newElement;
 			
+			// Dictionary like object with the name as the key and the text as the value
 			var keyLayout = {"Back":"Backspace", "Clear":"Clear", "Space":"Space"};
 			
 			newElement = document.createElement("DIV");
@@ -610,6 +622,7 @@
 				
 				var assFunction;
 				
+				// Assigns an onclick function to the button depending on the key
 				switch (key)
 				{
 					case "Back": assFunction = "backspace()"; break;
@@ -674,7 +687,7 @@
 					<div id="topSection">
 						<input type="text" id="searchBar" onfocus=this.blur()> <!-- Prevents element from being focused on -->
 						<select id="searchParameters" onchange="updateSearch()">
-							<option value="Title" selected>Title</option>
+							<option value="Title">Title</option>
 							<option value="Lyrics">Lyrics</option>
 							<option value="TitleLyrics" selected>Title & Lyrics</option>
 						</select>
