@@ -1,703 +1,703 @@
 <!--
-	MiTunes coursework
-	Written by:
-		Name - Michael Winkworth
-		ID - B626092
-		Login - comrw
+    MiTunes coursework
+    Written by:
+        Name - Michael Winkworth
+        ID - B626092
+        Login - comrw
 -->
 <!DOCTYPE html>
 <html>
-	<head>
-		<title>A8MiTunes</title>
-		
-		<style>
-		html, body {
-			font-family: "Arial", "Sans-serif";
-			font-size: 100%;
-			width: 100%;
-			height: 100%;
-			margin: 0;
-			
-			background-color: #313236;
-		}
+    <head>
+        <title>A8MiTunes</title>
+        
+        <style>
+        html, body {
+            font-family: "Arial", "Sans-serif";
+            font-size: 100%;
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            
+            background-color: #313236;
+        }
 
-		#mainTable {
-			width: 70%;
-			 /*Centers the table */
-			margin: auto;
-			border: thin solid black;
-			border-collapse: collapse;
-		}
+        #mainTable {
+            width: 70%;
+             /*Centers the table */
+            margin: auto;
+            border: thin solid black;
+            border-collapse: collapse;
+        }
 
-		.pane {
-			border: thin solid black;
-			
-			background-color: #4F4BE8;
-		}
+        .pane {
+            border: thin solid black;
+            
+            background-color: #4F4BE8;
+        }
 
-		#leftPane {
-			vertical-align: top;
-			width: 27.5%;
-		}
+        #leftPane {
+            vertical-align: top;
+            width: 27.5%;
+        }
 
-		#centerPane {
-			vertical-align: top;
-			width: 27.5%;
-		}
+        #centerPane {
+            vertical-align: top;
+            width: 27.5%;
+        }
 
-		#rightPane {
-			text-align: center;
-			width: 45%;
-			
-			font-family: "Verdana";
-		}
+        #rightPane {
+            text-align: center;
+            width: 45%;
+            
+            font-family: "Verdana";
+        }
 
-		.dropdown {
-			width: 100%;
-			height: 100%;
-			overflow: auto;
-			font-size: 100%;
-			
-			border: 0px;
-			background-color: #4F4BE8;
-		}
+        .dropdown {
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            font-size: 100%;
+            
+            border: 0px;
+            background-color: #4F4BE8;
+        }
 
-		#songName {
-			font-weight: bold;
-		}
+        #songName {
+            font-weight: bold;
+        }
 
-		#songArtist {
-			font-style: italic;
-		}
+        #songArtist {
+            font-style: italic;
+        }
 
-		#albumArt {
-			visibility: hidden;
-			outline: 2px solid #000000;
-			border: 1px solid #313236;
-		}
+        #albumArt {
+            visibility: hidden;
+            outline: 2px solid #000000;
+            border: 1px solid #313236;
+        }
 
-		#audioControl {
-			width: 80%;
-			height: 7.5%;
-			visibility: hidden;
-		}
+        #audioControl {
+            width: 80%;
+            height: 7.5%;
+            visibility: hidden;
+        }
 
-		#topSection {
-			text-align: center;
-			margin-top: 0.5%;
-			margin-bottom: 0.75%;
-		}
+        #topSection {
+            text-align: center;
+            margin-top: 0.5%;
+            margin-bottom: 0.75%;
+        }
 
-		#searchBar {
-			width: 40%;
-			text-align: center;
-			font-size: 125%;
-			display: inline-block;
-			margin-right: 2%;
-			
-			border: 1.5px solid #000000;
-		}
+        #searchBar {
+            width: 40%;
+            text-align: center;
+            font-size: 125%;
+            display: inline-block;
+            margin-right: 2%;
+            
+            border: 1.5px solid #000000;
+        }
 
-		#searchParameters {
-			font-size: 100%;
-			display: inline-block;
-		}
+        #searchParameters {
+            font-size: 100%;
+            display: inline-block;
+        }
 
-		#fullKeyboard {
-			text-align: center;
-			margin-bottom: 0.5%;
-		}
+        #fullKeyboard {
+            text-align: center;
+            margin-bottom: 0.5%;
+        }
 
-		#keyboard {
-			display: inline-block;
-			margin-right: 2%;
-		}
+        #keyboard {
+            display: inline-block;
+            margin-right: 2%;
+        }
 
-		#controlBoard {
-			text-align: right;
-			display: inline-block;
-		}
+        #controlBoard {
+            text-align: right;
+            display: inline-block;
+        }
 
-		.keyboardButton {
-			vertical-align: middle;
-			font-size: 125%;
-			width: 40px;
-			height: 40px;
-			
-			background-color: black;
-			color: white;
-			border: 1px solid white;
-		}
+        .keyboardButton {
+            vertical-align: middle;
+            font-size: 125%;
+            width: 40px;
+            height: 40px;
+            
+            background-color: black;
+            color: white;
+            border: 1px solid white;
+        }
 
-		.controlButton {
-			width: auto;
-		}
-		</style>
-		
-		<script type="text/javascript" src="music.js"></script>
-		<script type="text/javascript">
-		// An event listener for the whole document. Whenever a key is pressed down, a call is sent to this function.
-		document.addEventListener("keydown", function(event) {
-			// This function gets the element with an id of key and the key pressed (e.g. if the key is backspace, the id will be 'keyBackspace')
-			var key = document.getElementById("key" + event.key.substring(0, 1).toUpperCase() + event.key.substring(1));
-			
-			if (key != null)
-			{
-				key.click();
-			}
-			else if (event.keyCode == 8) // backspace
-			{
-				document.getElementById("keyBack").click();
-			}
-			else if (event.keyCode == 32) // space
-			{
-				document.getElementById("keySpace").click();
-			}
-			else if (event.keyCode == 13) // enter
-			{			
-				changeSongPlayState();
-			}
-		});
-		
-		// Description: Changes whether the current song is playing or paused. If it is paused, the song is played, and if it is playing the song is paused.
-		// Parameters: none
-		// Return value: none
-		function changeSongPlayState()
-		{
-			var audioControl = document.getElementById("audioControl");
-			
-			// Ternary statement. If the value is true, the control is played, and if it is false the control is paused. 
-			audioControl.paused ? audioControl.play() : audioControl.pause();
-		}
-		
-		// Description: Moves onto the next song in the song list.
-		// Parameters: none
-		// Return value: none
-		function nextSong()
-		{
-			var songList = document.getElementById("songList");
-			
-			if (songList.selectedIndex != -1)
-			{
-				var shuffle = false;
-				
-				// Unused function to shuffle songs.
-				if (shuffle)
-				{
-					var rand = songList.selectedIndex;
-					var count = 0;
-					
-					do
-					{
-						rand = Math.floor(Math.random() * songList.length);
-						count++;
-					}
-					while (rand == songList.selectedIndex && count < 10)
-					
-					songList.selectedIndex = rand;
-				}
-				else
-				{
-					if (songList.selectedIndex >= songList.length - 1) return;
-				
-					songList.selectedIndex = songList.selectedIndex + 1;
-				}
-				
-				updateRightPane();
-					
-				document.getElementById("audioControl").play();
-			}
-		}
-		
-		// Description: Filters the list of songs depending on a search string. Checks against song title and song lyrics depending on the current parameters.
-		// Parameters: array songList, string searchTxt
-		// Return value: array
-		function filterSongList(songList, searchTxt)
-		{
-			var searchParameters = document.getElementById("searchParameters").value;
-		
-			var filteredSongList = [];
-		
-			for (var i in songList)
-			{
-				if ((searchParameters == "Title" || searchParameters == "TitleLyrics") && songList[i].title.toUpperCase().includes(searchTxt.toUpperCase()))
-				{
-					filteredSongList[filteredSongList.length] = songList[i];
-				}
-				else if ((searchParameters == "Lyrics" || searchParameters == "TitleLyrics") && songList[i].lyrics.toUpperCase().includes(searchTxt.toUpperCase()))
-				{
-					filteredSongList[filteredSongList.length] = songList[i];
-				}
-			}
-			
-			return filteredSongList;
-		}
-		
-		// Description: Filters the list of albums depending on a search string. Given by all the albums which have a song that passes the same search string filter.
-		// Parameters: array albumList, string searchTxt
-		// Return value: array
-		function filterAlbumList(albumList, searchTxt)
-		{
-			var filteredAlbumList = [];
-			
-			for (var i in albumList)
-			{				
-				if (filterSongList(albumList[i].tracks, searchTxt).length > 0)
-				{
-					filteredAlbumList[filteredAlbumList.length] = albumList[i];
-				}
-			}
-			
-			return filteredAlbumList;
-		}
-		
-		// Description: Adds a character to the end of the search bar text, then updates the current search criteria.
-		// Parameters: string s
-		// Return value: none
-		function addToSearch(s)
-		{
-			var searchBar = document.getElementById("searchBar");
-			
-			var currentText = searchBar.getAttribute("value");
-			
-			var newText = (currentText == null) ? s : currentText + s;
-			
-			searchBar.setAttribute("value", newText);
-			
-			updateSearch();
-		}
-		
-		// Description: Removes the last character from the search bar text, then updates the form to match the current search criteria.
-		// Parameters: none
-		// Return value: none
-		function backspace()
-		{
-			var searchBar = document.getElementById("searchBar");
-			
-			var currentText = searchBar.getAttribute("value");
-			
-			// Takes off the last character.
-			var newText = (currentText == null || currentText == "") ? "" : currentText.substring(0, currentText.length - 1);
-			
-			searchBar.setAttribute("value", newText);
-			
-			updateSearch();
-		}
-		
-		// Description: Adds a space at the end of the search bar text, then updates the form to match the current search criteria.
-		// Parameters: none
-		// Return value: none
-		function space()
-		{
-			var searchBar = document.getElementById("searchBar");
-			
-			var currentText = searchBar.getAttribute("value");
-			
-			var newText = (currentText == null || currentText == "") ? "" : currentText + " ";
-			
-			searchBar.setAttribute("value", newText);
-			
-			updateSearch();
-		}
-		
-		// Description: Clears the current search bar text, then updates the form to match the current search criteria.
-		// Parameters: none
-		// Return value: none
-		function clearSearch()
-		{
-			var searchBar = document.getElementById("searchBar");
-			
-			searchBar.setAttribute("value", "");
-			
-			updateSearch();
-		}
-		
-		// Description: Updates the currently shown albums and songs to match the search criteria. Involves updating the left and center panes.
-		// Parameters: none
-		// Return value: none
-		function updateSearch()
-		{
-			var albumValue = document.getElementById("albumList").value;
-			var songValue = document.getElementById("songList").value;
-		
-			updateLeftPane();
-			
-			var newAlbumList = document.getElementById("albumList");
-			
-			var aValueIndex = -1;
-			
-			// Sets the currently selected album to be the album that was selected beforehand
-			if (albumValue != null)
-			{
-				for (var a in newAlbumList.options)
-				{
-					if (newAlbumList.options[a].value == albumValue)
-					{
-						aValueIndex = a;
-						break;
-					}
-				}
+        .controlButton {
+            width: auto;
+        }
+        </style>
+        
+        <script type="text/javascript" src="music.js"></script>
+        <script type="text/javascript">
+        // An event listener for the whole document. Whenever a key is pressed down, a call is sent to this function.
+        document.addEventListener("keydown", function(event) {
+            // This function gets the element with an id of key and the key pressed (e.g. if the key is backspace, the id will be 'keyBackspace')
+            var key = document.getElementById("key" + event.key.substring(0, 1).toUpperCase() + event.key.substring(1));
+            
+            if (key != null)
+            {
+                key.click();
+            }
+            else if (event.keyCode == 8) // backspace
+            {
+                document.getElementById("keyBack").click();
+            }
+            else if (event.keyCode == 32) // space
+            {
+                document.getElementById("keySpace").click();
+            }
+            else if (event.keyCode == 13) // enter
+            {			
+                changeSongPlayState();
+            }
+        });
+        
+        // Description: Changes whether the current song is playing or paused. If it is paused, the song is played, and if it is playing the song is paused.
+        // Parameters: none
+        // Return value: none
+        function changeSongPlayState()
+        {
+            var audioControl = document.getElementById("audioControl");
+            
+            // Ternary statement. If the value is true, the control is played, and if it is false the control is paused. 
+            audioControl.paused ? audioControl.play() : audioControl.pause();
+        }
+        
+        // Description: Moves onto the next song in the song list.
+        // Parameters: none
+        // Return value: none
+        function nextSong()
+        {
+            var songList = document.getElementById("songList");
+            
+            if (songList.selectedIndex != -1)
+            {
+                var shuffle = false;
+                
+                // Unused function to shuffle songs.
+                if (shuffle)
+                {
+                    var rand = songList.selectedIndex;
+                    var count = 0;
+                    
+                    do
+                    {
+                        rand = Math.floor(Math.random() * songList.length);
+                        count++;
+                    }
+                    while (rand == songList.selectedIndex && count < 10)
+                    
+                    songList.selectedIndex = rand;
+                }
+                else
+                {
+                    if (songList.selectedIndex >= songList.length - 1) return;
+                
+                    songList.selectedIndex = songList.selectedIndex + 1;
+                }
+                
+                updateRightPane();
+                    
+                document.getElementById("audioControl").play();
+            }
+        }
+        
+        // Description: Filters the list of songs depending on a search string. Checks against song title and song lyrics depending on the current parameters.
+        // Parameters: array songList, string searchTxt
+        // Return value: array
+        function filterSongList(songList, searchTxt)
+        {
+            var searchParameters = document.getElementById("searchParameters").value;
+        
+            var filteredSongList = [];
+        
+            for (var i in songList)
+            {
+                if ((searchParameters == "Title" || searchParameters == "TitleLyrics") && songList[i].title.toUpperCase().includes(searchTxt.toUpperCase()))
+                {
+                    filteredSongList[filteredSongList.length] = songList[i];
+                }
+                else if ((searchParameters == "Lyrics" || searchParameters == "TitleLyrics") && songList[i].lyrics.toUpperCase().includes(searchTxt.toUpperCase()))
+                {
+                    filteredSongList[filteredSongList.length] = songList[i];
+                }
+            }
+            
+            return filteredSongList;
+        }
+        
+        // Description: Filters the list of albums depending on a search string. Given by all the albums which have a song that passes the same search string filter.
+        // Parameters: array albumList, string searchTxt
+        // Return value: array
+        function filterAlbumList(albumList, searchTxt)
+        {
+            var filteredAlbumList = [];
+            
+            for (var i in albumList)
+            {				
+                if (filterSongList(albumList[i].tracks, searchTxt).length > 0)
+                {
+                    filteredAlbumList[filteredAlbumList.length] = albumList[i];
+                }
+            }
+            
+            return filteredAlbumList;
+        }
+        
+        // Description: Adds a character to the end of the search bar text, then updates the current search criteria.
+        // Parameters: string s
+        // Return value: none
+        function addToSearch(s)
+        {
+            var searchBar = document.getElementById("searchBar");
+            
+            var currentText = searchBar.getAttribute("value");
+            
+            var newText = (currentText == null) ? s : currentText + s;
+            
+            searchBar.setAttribute("value", newText);
+            
+            updateSearch();
+        }
+        
+        // Description: Removes the last character from the search bar text, then updates the form to match the current search criteria.
+        // Parameters: none
+        // Return value: none
+        function backspace()
+        {
+            var searchBar = document.getElementById("searchBar");
+            
+            var currentText = searchBar.getAttribute("value");
+            
+            // Takes off the last character.
+            var newText = (currentText == null || currentText == "") ? "" : currentText.substring(0, currentText.length - 1);
+            
+            searchBar.setAttribute("value", newText);
+            
+            updateSearch();
+        }
+        
+        // Description: Adds a space at the end of the search bar text, then updates the form to match the current search criteria.
+        // Parameters: none
+        // Return value: none
+        function space()
+        {
+            var searchBar = document.getElementById("searchBar");
+            
+            var currentText = searchBar.getAttribute("value");
+            
+            var newText = (currentText == null || currentText == "") ? "" : currentText + " ";
+            
+            searchBar.setAttribute("value", newText);
+            
+            updateSearch();
+        }
+        
+        // Description: Clears the current search bar text, then updates the form to match the current search criteria.
+        // Parameters: none
+        // Return value: none
+        function clearSearch()
+        {
+            var searchBar = document.getElementById("searchBar");
+            
+            searchBar.setAttribute("value", "");
+            
+            updateSearch();
+        }
+        
+        // Description: Updates the currently shown albums and songs to match the search criteria. Involves updating the left and center panes.
+        // Parameters: none
+        // Return value: none
+        function updateSearch()
+        {
+            var albumValue = document.getElementById("albumList").value;
+            var songValue = document.getElementById("songList").value;
+        
+            updateLeftPane();
+            
+            var newAlbumList = document.getElementById("albumList");
+            
+            var aValueIndex = -1;
+            
+            // Sets the currently selected album to be the album that was selected beforehand
+            if (albumValue != null)
+            {
+                for (var a in newAlbumList.options)
+                {
+                    if (newAlbumList.options[a].value == albumValue)
+                    {
+                        aValueIndex = a;
+                        break;
+                    }
+                }
 
-				if (aValueIndex >= 0) newAlbumList.selectedIndex = aValueIndex.toString();
-			}
-			
-			updateCenterPane();
-			
-			var newSongList = document.getElementById("songList");
-			
-			var sValueIndex = -1;
-			
-			// Sets the currently selected song to be the song that was selected beforehand
-			if (songValue != null)
-			{
-				for (var s in newSongList.options)
-				{
-					if (newSongList.options[s].value == songValue)
-					{
-						sValueIndex = s;
-						break;
-					}
-				}
+                if (aValueIndex >= 0) newAlbumList.selectedIndex = aValueIndex.toString();
+            }
+            
+            updateCenterPane();
+            
+            var newSongList = document.getElementById("songList");
+            
+            var sValueIndex = -1;
+            
+            // Sets the currently selected song to be the song that was selected beforehand
+            if (songValue != null)
+            {
+                for (var s in newSongList.options)
+                {
+                    if (newSongList.options[s].value == songValue)
+                    {
+                        sValueIndex = s;
+                        break;
+                    }
+                }
 
-				if (sValueIndex >= 0) newSongList.selectedIndex = sValueIndex.toString();
-			}
-		}
-		
-		// Description: Updates the left pane containing the albums. Involves filtering the albums, clearing the current list and populating it with the filtered albums.
-		// Parameters: none
-		// Return value: none
-		function updateLeftPane()
-		{		
-			var albumList = document.getElementById("albumList");
-			
-			var searchBar = document.getElementById("searchBar");
-			
-			albumList.innerHTML = "";
-			
-			// This takes a copy of the albums array and puts it into sortedAlbums.
-			var sortedAlbums = albums.slice(0);
-			
-			// This line takes a sort function, then checks pairs of elements against the function to see which way round they should be.
-			sortedAlbums.sort(function (a, b) {
-				// In this case, if the first album's artist comes after the second album's artist, the function returns 1, meaning sort a after b. Otherwise it returns -1, meaning sort a before b.
-				return a.artist > b.artist ? 1 : -1;
-			});
-			
-			var filteredAlbums;
-			
-			if (searchBar != null && searchBar.value.length > 1)
-			{
-				filteredAlbums = filterAlbumList(sortedAlbums, searchBar.value);
-			}
-			else
-			{
-				filteredAlbums = sortedAlbums;
-			}
-			
-			var artistGroups = [];
-			
-			for (var i in filteredAlbums)
-			{				
-				var a = filteredAlbums[i];
-				
-				var optionGroup;
-				
-				var index = artistGroups.indexOf(a.artist);
-				
-				if (index == -1)
-				{
-					// Creates an option group. An option group divides a dropdown into multiple groups (in this case by album artist)
-					optionGroup = document.createElement("OPTGROUP");
-					optionGroup.setAttribute("id", a.artist + "grp");
-					optionGroup.setAttribute("label", a.artist);
-					albumList.add(optionGroup);
-					artistGroups.push(a.artist);
-				}
-				else
-				{
-					optionGroup = document.getElementById(artistGroups[index] + "grp");
-				}
-				
-				var option = document.createElement("OPTION");
-				var text = document.createTextNode(a.title);
-				option.setAttribute("value", a.title);
-				option.setAttribute("id", a.title);
-				option.appendChild(text);
-				optionGroup.appendChild(option);
-			}
-		}
-		
-		// Description: Updates the center pane containing the songs. Involves filtering the songs, clearing the current list and populating it with the filtered songs.
-		// Parameters: none
-		// Return value: none
-		function updateCenterPane()
-		{
-			var albumList = document.getElementById("albumList");
-			var songList = document.getElementById("songList");
-			var albumTracks = [];
-			
-			var searchBar = document.getElementById("searchBar");
-			
-			for (var i in albums)
-			{
-				var a = albums[i];
-				
-				if (a.title == albumList.value)
-				{
-					albumTracks = a.tracks;
-				}
-			}
-			
-			songList.innerHTML = "";
-			
-			var filteredTracks;
-			
-			if (searchBar != null && searchBar.value.length > 1)
-			{
-				filteredTracks = filterSongList(albumTracks, searchBar.value);
-			}
-			else
-			{
-				filteredTracks = albumTracks;
-			}
-			
-			for (var i in filteredTracks)
-			{
-				var t = filteredTracks[i];
-				var option = document.createElement("OPTION");
-				var text = document.createTextNode(t.title);
-				option.setAttribute("value", t.title);
-				option.appendChild(text);
-				songList.add(option);
-			}
-		}
-		
-		// Description: Updates the right pane containing the song info. Involves updating the song title, album, artist, album art and audio control sources.
-		// Parameters: none
-		// Return value: none
-		function updateRightPane()
-		{
-			var currentAlbum = document.getElementById("albumList").value;
-			var currentSong = document.getElementById("songList").value;
-		
-			var albumArt = document.getElementById("albumArt");
-			var songName = document.getElementById("songName");
-			var songAlbum = document.getElementById("songAlbum");
-			var songArtist = document.getElementById("songArtist");
-			
-			var sourceMP3 = document.getElementById("sourceMP3");
-			var sourceWAV = document.getElementById("sourceWAV");
-			var audioControl = document.getElementById("audioControl");
-			
-			songName.innerHTML = "";
-			songAlbum.innerHTML = "";
-			songArtist.innerHTML = "";
-			
-			for (var i in albums)
-			{
-				var a = albums[i];
-				
-				if (a.title == currentAlbum)
-				{
-					songAlbum.appendChild(document.createTextNode(a.title));
-					songArtist.appendChild(document.createTextNode(a.artist));
-					
-					var artPath = "artwork/" + a.artwork + ".jpg";
-					
-					albumArt.setAttribute("src", artPath);
-					albumArt.setAttribute("alt", a.artwork);
-					albumArt.style.visibility = "visible";
-					
-					for (var j in a.tracks)
-					{
-						var s = a.tracks[j];
-										
-						if (s.title == currentSong)
-						{
-							songName.appendChild(document.createTextNode(s.title));
-							
-							// Setting up the audio path
-							var path = "audio/" + a.artist + "/" + a.title + "/";
-							var songFile = path + s.mp3.substring(0, s.mp3.lastIndexOf("."));
-							
-							sourceMP3.setAttribute("src", songFile + ".mp3");
-							sourceWAV.setAttribute("src", songFile + ".wav");
-							
-							audioControl.load();
-							audioControl.style.visibility = "visible";
-							
-							break;
-						}
-					}
-					
-					break;
-				}
-			}
-		}
-		
-		// Description: Function to generate the keyboard into the bottom pane. This includes all the keyboard letters from A-Z. Only called once.
-		// Parameters: none
-		// Return value: none
-		function generateKeyboard()
-		{
-			var bottomPane = document.getElementById("fullKeyboard");
-			var newElement;
-			
-			// Shows the layout of the on-screen keyboard
-			var keyLayout = [["Q","W","E","R","T","Y","U","I","O","P"],
-							 ["A","S","D","F","G","H","J","K","L"],
-							 ["Z","X","C","V","B","N","M"]];
-			
-			newElement = document.createElement("DIV");
-			
-			newElement.setAttribute("id", "keyboard");
-			
-			for (var r = 0; r < keyLayout.length; r++)
-			{
-				var rowElement = document.createElement("DIV");
-			
-				for (var c = 0; c < keyLayout[r].length; c++)
-				{
-					var key = keyLayout[r][c];
-					
-					var cellElement = document.createElement("SPAN");
-					
-					cellElement.setAttribute("class", "keyboardCell");
-					
-					if (key != "")
-					{
-						var buttonElement = document.createElement("INPUT");
-						buttonElement.setAttribute("type", "button");
-						buttonElement.setAttribute("id", "key" + key.toUpperCase());
-						buttonElement.setAttribute("value", key);
-						buttonElement.setAttribute("class", "keyboardButton");
-						// When the button is clicked, it will call the addToSearch function with the parameter as whatever the button's value is
-						buttonElement.setAttribute("onclick", "addToSearch(\"" + buttonElement.getAttribute("value") + "\")");
-						
-						cellElement.appendChild(buttonElement);
-					}
-					
-					rowElement.appendChild(cellElement);
-				}
-				
-				rowElement.setAttribute("class", "keyboardRow");
-				
-				newElement.appendChild(rowElement);
-			}
-			
-			bottomPane.appendChild(newElement);
-		}
-		
-		// Description: Function to generate the keyboard control panel into the bottom pane. This includes the backspace button, clear button and space button. Only called once.
-		// Parameters: none
-		// Return value: none
-		function generateKeyboardControlPanel()
-		{		
-			var bottomPane = document.getElementById("fullKeyboard");
-			var newElement;
-			
-			// Dictionary like object with the name as the key and the text as the value
-			var keyLayout = {"Back":"Backspace", "Clear":"Clear", "Space":"Space"};
-			
-			newElement = document.createElement("DIV");
-			
-			newElement.setAttribute("id", "controlBoard");
-			
-			for (var key in keyLayout)
-			{			
-				var value = keyLayout[key];
-			
-				var rowElement = document.createElement("DIV");
-				
-				var cellElement = document.createElement("SPAN");
-			
-				cellElement.setAttribute("class", "keyboardCell controlCell");
-				
-				var buttonElement = document.createElement("INPUT");
-				var buttonElement = document.createElement("INPUT");
-				buttonElement.setAttribute("type", "button");
-				buttonElement.setAttribute("id", "key" + key);
-				buttonElement.setAttribute("value", value);
-				buttonElement.setAttribute("class", "keyboardButton controlButton");
-				
-				var assFunction;
-				
-				// Assigns an onclick function to the button depending on the key
-				switch (key)
-				{
-					case "Back": assFunction = "backspace()"; break;
-					case "Clear": assFunction = "clearSearch()"; break;
-					case "Space": assFunction = "space()"; break;
-					default: assFunction = "";
-				}
-				
-				if (assFunction != "") buttonElement.setAttribute("onclick", assFunction);
-				
-				cellElement.appendChild(buttonElement);
-				
-				rowElement.appendChild(cellElement);
-			
-				rowElement.setAttribute("class", "keyboardRow controlRow");
-				
-				newElement.appendChild(rowElement);
-			}
-			
-			bottomPane.appendChild(newElement);
-		}
-		
-		// Description: Function to generate the full keyboard into the bottom pane. Only called once.
-		// Parameters: none
-		// Return value: none
-		function generateFullKeyboard()
-		{
-			generateKeyboard();
-			generateKeyboardControlPanel();
-		}
-		</script>
-	</head>
-	<body>
-		<table id="mainTable">
-			<tr>
-				<td class="pane" id="leftPane">
-					<select id="albumList" class="dropdown" size="20" onchange="updateCenterPane()"> <!-- Updates the songs pane when changed -->
-					</select>
-					<!-- Generates the album list for the first time -->
-					<script>updateLeftPane()</script>
-				</td>
-				<td class="pane" id="centerPane">
-					<select id="songList" class="dropdown" size="20" onchange="updateRightPane()" ondblclick="changeSongPlayState()"> <!-- Updates the song info pane when changed, and changes the song playing state when the song is double clicked --> 
-					</select>
-					<!-- Generates the song list for the first time -->
-					<script>updateCenterPane()</script>
-				</td>
-				<td class="pane" id="rightPane">
-					<img id="albumArt">
-					<p id="songName" class="songDetails"></p>
-					<p id="songAlbum" class="songDetails"></p>
-					<p id="songArtist" class="songDetails"></p>
-					<audio controls id="audioControl" onended="nextSong()"> <!-- Plays the next song when finished with the current one -->
-						<source id="sourceMP3" type="audio/mpeg">
-						<source id="sourceWAV" type="audio/wav">
-						Your browser does not support the audio element.
-					</audio>
-				</td>
-			</tr>
-			<tr>
-				<td class="pane" id="bottomPane" colspan="3">
-					<div id="topSection">
-						<input type="text" id="searchBar" onfocus=this.blur()> <!-- Prevents element from being focused on -->
-						<select id="searchParameters" onchange="updateSearch()">
-							<option value="Title">Title</option>
-							<option value="Lyrics">Lyrics</option>
-							<option value="TitleLyrics" selected>Title & Lyrics</option>
-						</select>
-					</div>
-					<div id="fullKeyboard">
-						<!-- Generates the song list for the first time -->
-						<script>generateFullKeyboard()</script>
-					</div>
-				</td>
-			</tr>
-		</table>
-	</body>
+                if (sValueIndex >= 0) newSongList.selectedIndex = sValueIndex.toString();
+            }
+        }
+        
+        // Description: Updates the left pane containing the albums. Involves filtering the albums, clearing the current list and populating it with the filtered albums.
+        // Parameters: none
+        // Return value: none
+        function updateLeftPane()
+        {		
+            var albumList = document.getElementById("albumList");
+            
+            var searchBar = document.getElementById("searchBar");
+            
+            albumList.innerHTML = "";
+            
+            // This takes a copy of the albums array and puts it into sortedAlbums.
+            var sortedAlbums = albums.slice(0);
+            
+            // This line takes a sort function, then checks pairs of elements against the function to see which way round they should be.
+            sortedAlbums.sort(function (a, b) {
+                // In this case, if the first album's artist comes after the second album's artist, the function returns 1, meaning sort a after b. Otherwise it returns -1, meaning sort a before b.
+                return a.artist > b.artist ? 1 : -1;
+            });
+            
+            var filteredAlbums;
+            
+            if (searchBar != null && searchBar.value.length > 1)
+            {
+                filteredAlbums = filterAlbumList(sortedAlbums, searchBar.value);
+            }
+            else
+            {
+                filteredAlbums = sortedAlbums;
+            }
+            
+            var artistGroups = [];
+            
+            for (var i in filteredAlbums)
+            {				
+                var a = filteredAlbums[i];
+                
+                var optionGroup;
+                
+                var index = artistGroups.indexOf(a.artist);
+                
+                if (index == -1)
+                {
+                    // Creates an option group. An option group divides a dropdown into multiple groups (in this case by album artist)
+                    optionGroup = document.createElement("OPTGROUP");
+                    optionGroup.setAttribute("id", a.artist + "grp");
+                    optionGroup.setAttribute("label", a.artist);
+                    albumList.add(optionGroup);
+                    artistGroups.push(a.artist);
+                }
+                else
+                {
+                    optionGroup = document.getElementById(artistGroups[index] + "grp");
+                }
+                
+                var option = document.createElement("OPTION");
+                var text = document.createTextNode(a.title);
+                option.setAttribute("value", a.title);
+                option.setAttribute("id", a.title);
+                option.appendChild(text);
+                optionGroup.appendChild(option);
+            }
+        }
+        
+        // Description: Updates the center pane containing the songs. Involves filtering the songs, clearing the current list and populating it with the filtered songs.
+        // Parameters: none
+        // Return value: none
+        function updateCenterPane()
+        {
+            var albumList = document.getElementById("albumList");
+            var songList = document.getElementById("songList");
+            var albumTracks = [];
+            
+            var searchBar = document.getElementById("searchBar");
+            
+            for (var i in albums)
+            {
+                var a = albums[i];
+                
+                if (a.title == albumList.value)
+                {
+                    albumTracks = a.tracks;
+                }
+            }
+            
+            songList.innerHTML = "";
+            
+            var filteredTracks;
+            
+            if (searchBar != null && searchBar.value.length > 1)
+            {
+                filteredTracks = filterSongList(albumTracks, searchBar.value);
+            }
+            else
+            {
+                filteredTracks = albumTracks;
+            }
+            
+            for (var i in filteredTracks)
+            {
+                var t = filteredTracks[i];
+                var option = document.createElement("OPTION");
+                var text = document.createTextNode(t.title);
+                option.setAttribute("value", t.title);
+                option.appendChild(text);
+                songList.add(option);
+            }
+        }
+        
+        // Description: Updates the right pane containing the song info. Involves updating the song title, album, artist, album art and audio control sources.
+        // Parameters: none
+        // Return value: none
+        function updateRightPane()
+        {
+            var currentAlbum = document.getElementById("albumList").value;
+            var currentSong = document.getElementById("songList").value;
+        
+            var albumArt = document.getElementById("albumArt");
+            var songName = document.getElementById("songName");
+            var songAlbum = document.getElementById("songAlbum");
+            var songArtist = document.getElementById("songArtist");
+            
+            var sourceMP3 = document.getElementById("sourceMP3");
+            var sourceWAV = document.getElementById("sourceWAV");
+            var audioControl = document.getElementById("audioControl");
+            
+            songName.innerHTML = "";
+            songAlbum.innerHTML = "";
+            songArtist.innerHTML = "";
+            
+            for (var i in albums)
+            {
+                var a = albums[i];
+                
+                if (a.title == currentAlbum)
+                {
+                    songAlbum.appendChild(document.createTextNode(a.title));
+                    songArtist.appendChild(document.createTextNode(a.artist));
+                    
+                    var artPath = "artwork/" + a.artwork + ".jpg";
+                    
+                    albumArt.setAttribute("src", artPath);
+                    albumArt.setAttribute("alt", a.artwork);
+                    albumArt.style.visibility = "visible";
+                    
+                    for (var j in a.tracks)
+                    {
+                        var s = a.tracks[j];
+                                        
+                        if (s.title == currentSong)
+                        {
+                            songName.appendChild(document.createTextNode(s.title));
+                            
+                            // Setting up the audio path
+                            var path = "audio/" + a.artist + "/" + a.title + "/";
+                            var songFile = path + s.mp3.substring(0, s.mp3.lastIndexOf("."));
+                            
+                            sourceMP3.setAttribute("src", songFile + ".mp3");
+                            sourceWAV.setAttribute("src", songFile + ".wav");
+                            
+                            audioControl.load();
+                            audioControl.style.visibility = "visible";
+                            
+                            break;
+                        }
+                    }
+                    
+                    break;
+                }
+            }
+        }
+        
+        // Description: Function to generate the keyboard into the bottom pane. This includes all the keyboard letters from A-Z. Only called once.
+        // Parameters: none
+        // Return value: none
+        function generateKeyboard()
+        {
+            var bottomPane = document.getElementById("fullKeyboard");
+            var newElement;
+            
+            // Shows the layout of the on-screen keyboard
+            var keyLayout = [["Q","W","E","R","T","Y","U","I","O","P"],
+                             ["A","S","D","F","G","H","J","K","L"],
+                             ["Z","X","C","V","B","N","M"]];
+            
+            newElement = document.createElement("DIV");
+            
+            newElement.setAttribute("id", "keyboard");
+            
+            for (var r = 0; r < keyLayout.length; r++)
+            {
+                var rowElement = document.createElement("DIV");
+            
+                for (var c = 0; c < keyLayout[r].length; c++)
+                {
+                    var key = keyLayout[r][c];
+                    
+                    var cellElement = document.createElement("SPAN");
+                    
+                    cellElement.setAttribute("class", "keyboardCell");
+                    
+                    if (key != "")
+                    {
+                        var buttonElement = document.createElement("INPUT");
+                        buttonElement.setAttribute("type", "button");
+                        buttonElement.setAttribute("id", "key" + key.toUpperCase());
+                        buttonElement.setAttribute("value", key);
+                        buttonElement.setAttribute("class", "keyboardButton");
+                        // When the button is clicked, it will call the addToSearch function with the parameter as whatever the button's value is
+                        buttonElement.setAttribute("onclick", "addToSearch(\"" + buttonElement.getAttribute("value") + "\")");
+                        
+                        cellElement.appendChild(buttonElement);
+                    }
+                    
+                    rowElement.appendChild(cellElement);
+                }
+                
+                rowElement.setAttribute("class", "keyboardRow");
+                
+                newElement.appendChild(rowElement);
+            }
+            
+            bottomPane.appendChild(newElement);
+        }
+        
+        // Description: Function to generate the keyboard control panel into the bottom pane. This includes the backspace button, clear button and space button. Only called once.
+        // Parameters: none
+        // Return value: none
+        function generateKeyboardControlPanel()
+        {		
+            var bottomPane = document.getElementById("fullKeyboard");
+            var newElement;
+            
+            // Dictionary like object with the name as the key and the text as the value
+            var keyLayout = {"Back":"Backspace", "Clear":"Clear", "Space":"Space"};
+            
+            newElement = document.createElement("DIV");
+            
+            newElement.setAttribute("id", "controlBoard");
+            
+            for (var key in keyLayout)
+            {			
+                var value = keyLayout[key];
+            
+                var rowElement = document.createElement("DIV");
+                
+                var cellElement = document.createElement("SPAN");
+            
+                cellElement.setAttribute("class", "keyboardCell controlCell");
+                
+                var buttonElement = document.createElement("INPUT");
+                var buttonElement = document.createElement("INPUT");
+                buttonElement.setAttribute("type", "button");
+                buttonElement.setAttribute("id", "key" + key);
+                buttonElement.setAttribute("value", value);
+                buttonElement.setAttribute("class", "keyboardButton controlButton");
+                
+                var assFunction;
+                
+                // Assigns an onclick function to the button depending on the key
+                switch (key)
+                {
+                    case "Back": assFunction = "backspace()"; break;
+                    case "Clear": assFunction = "clearSearch()"; break;
+                    case "Space": assFunction = "space()"; break;
+                    default: assFunction = "";
+                }
+                
+                if (assFunction != "") buttonElement.setAttribute("onclick", assFunction);
+                
+                cellElement.appendChild(buttonElement);
+                
+                rowElement.appendChild(cellElement);
+            
+                rowElement.setAttribute("class", "keyboardRow controlRow");
+                
+                newElement.appendChild(rowElement);
+            }
+            
+            bottomPane.appendChild(newElement);
+        }
+        
+        // Description: Function to generate the full keyboard into the bottom pane. Only called once.
+        // Parameters: none
+        // Return value: none
+        function generateFullKeyboard()
+        {
+            generateKeyboard();
+            generateKeyboardControlPanel();
+        }
+        </script>
+    </head>
+    <body>
+        <table id="mainTable">
+            <tr>
+                <td class="pane" id="leftPane">
+                    <select id="albumList" class="dropdown" size="20" onchange="updateCenterPane()"> <!-- Updates the songs pane when changed -->
+                    </select>
+                    <!-- Generates the album list for the first time -->
+                    <script>updateLeftPane()</script>
+                </td>
+                <td class="pane" id="centerPane">
+                    <select id="songList" class="dropdown" size="20" onchange="updateRightPane()" ondblclick="changeSongPlayState()"> <!-- Updates the song info pane when changed, and changes the song playing state when the song is double clicked --> 
+                    </select>
+                    <!-- Generates the song list for the first time -->
+                    <script>updateCenterPane()</script>
+                </td>
+                <td class="pane" id="rightPane">
+                    <img id="albumArt">
+                    <p id="songName" class="songDetails"></p>
+                    <p id="songAlbum" class="songDetails"></p>
+                    <p id="songArtist" class="songDetails"></p>
+                    <audio controls id="audioControl" onended="nextSong()"> <!-- Plays the next song when finished with the current one -->
+                        <source id="sourceMP3" type="audio/mpeg">
+                        <source id="sourceWAV" type="audio/wav">
+                        Your browser does not support the audio element.
+                    </audio>
+                </td>
+            </tr>
+            <tr>
+                <td class="pane" id="bottomPane" colspan="3">
+                    <div id="topSection">
+                        <input type="text" id="searchBar" onfocus=this.blur()> <!-- Prevents element from being focused on -->
+                        <select id="searchParameters" onchange="updateSearch()">
+                            <option value="Title">Title</option>
+                            <option value="Lyrics">Lyrics</option>
+                            <option value="TitleLyrics" selected>Title & Lyrics</option>
+                        </select>
+                    </div>
+                    <div id="fullKeyboard">
+                        <!-- Generates the song list for the first time -->
+                        <script>generateFullKeyboard()</script>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </body>
 </html>
